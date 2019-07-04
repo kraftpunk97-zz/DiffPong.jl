@@ -1,0 +1,4 @@
+name = "DiffPong"
+uuid = "7cb0715c-9e99-11e9-32d2-cb88004471b6"
+authors = ["Kartikey Gupta <kartikeygupta9097@gmail.com>"]
+version = "0.1.0"
