@@ -1,2 +1,2 @@
-# DiffPong.jl
-A differentiable Pong game environment for the Julia
+# DiffPong.jl [WIP]
+A differentiable Pong game environment for the Julia programming language.
