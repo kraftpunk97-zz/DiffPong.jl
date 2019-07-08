@@ -2,3 +2,7 @@ name = "DiffPong"
 uuid = "7cb0715c-9e99-11e9-32d2-cb88004471b6"
 authors = ["Kartikey Gupta <kartikeygupta9097@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
+GymSpaces = "4896a6fa-884d-11e9-35a0-9763e69c01ff"

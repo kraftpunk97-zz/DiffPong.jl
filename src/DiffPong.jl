@@ -1,5 +1,5 @@
 module DiffPong
 
-greet() = print("Hello World!")
-
+include("game_logic.jl")
+include("rendering.jl")
 end # module
