@@ -27,11 +27,11 @@ rectangle(ctx, player_b.position.x*factor, (player_b.position.y - player_b.lengt
 fill(ctx)
 
 
-#  The belle of the ball....
+#  The ball...
 set_source_rgb(ctx, 1, 0, 0)
 circle(ctx, ball.position.x*factor, ball.position.y*factor, ball.radius*factor)
 fill(ctx)
-#translate(ctx, -margin_width*factor, -margin_height*factor)
 
-translate(ctx, -margin_width*factor, -margin_height*factor)
+
+translate(ctx, -arena.margin.x*factor, -arena.margin.y*factor)
 end
