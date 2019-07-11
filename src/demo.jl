@@ -52,6 +52,8 @@ function demo()
 
     # Main game loop
     for timestep=1:200
+        
+        # Reset the ball's position when it exits the arena...
         if !(0 < ball.position.x < arena.dims.x)
             reset_ball!(ball, ball_pos, ball_vel)
         end
