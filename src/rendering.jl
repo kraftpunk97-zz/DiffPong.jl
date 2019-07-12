@@ -16,13 +16,12 @@ rectangle(ctx, 0, 0, screen.x*factor, arena.margin.y*factor)
 rectangle(ctx, 0, (screen.y - arena.margin.y)*factor, screen.x*factor, arena.margin.y*factor)
 fill(ctx)
 
-
 # Players ready...
 set_source_rgb(ctx, 0, 0, 0)
 translate(ctx, arena.margin.x*factor, arena.margin.y*factor)
-rectangle(ctx, player_a.position.x*factor, (player_a.position.y - player_a.length/2f0)*factor,
+rectangle(ctx, player_a.position.x*factor, player_a.position.y*factor,
             -arena.margin.x*factor, player_a.length*factor)
-rectangle(ctx, player_b.position.x*factor, (player_b.position.y - player_b.length/2f0)*factor,
+rectangle(ctx, player_b.position.x*factor, player_b.position.y*factor,
             arena.margin.x*factor, player_b.length*factor)
 fill(ctx)
 

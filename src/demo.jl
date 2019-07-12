@@ -13,19 +13,22 @@ function demo()
     # The position of the paddle is calculated from its center.
     # Therefore, acceptable values of the y coordinate of the paddles are
     # from paddle_length/2 -------> arena_height - paddle_length/2
-    player_a_pos = Vector_(0, arena.dims.y/2)
+    player_a_pos = Vector_(0, arena.dims.y - paddle_length/2f0)
     player_b_pos = Vector_(arena.dims.x, arena.dims.y/2f0)
 
     # Position of the ball is calculated from its center.
     # Acceptable values of the x and y coordinates for the ball are from
     # ball.radius -----------> arena_width - ball.radius
     # ball.radius -----------> arena_height - ball.radius
-    ball_pos = Vector_(arena.dims.x/2f0, 0)
-    ball_vel = Vector_(3,  -3)
+    ball_pos = Vector_(arena.dims.y/2f0, arena.margin.y)
+    ball_vel = Vector_(2,  2)
 
-    player_a = Player(arena.dims.y / 5f0, player_a_pos, 0, true, 0)
-    player_b = Player(arena.dims.y / 5f0, player_b_pos, 0,  false, 0)
-    ball = Ball(ball_pos, ball_vel, arena.margin.x)
+    #ball_reset_pos = copy(ball_pos)
+    #ball_reset_vel = copy(ball_vel)
+
+    player_a = Player(arena.dims.y / 5f0, deepcopy(player_a_pos), 0, true, 0)
+    player_b = Player(arena.dims.y / 5f0, deepcopy(player_b_pos), 0,  false, 0)
+    ball = Ball(deepcopy(ball_pos), deepcopy(ball_vel), arena.margin.x)
 
     # Rendering utilities...
     screen = arena.dims + 2arena.margin
@@ -51,17 +54,29 @@ function demo()
     =#
 
     # Main game loop
+
+    #render(ctx, arena, ball, player_a, player_b)
+    #display(viewer)
+    println("Starting position ", ball.position)
     for timestep=1:200
-        
-        # Reset the ball's position when it exits the arena...
-        if !(0 < ball.position.x < arena.dims.x)
-            reset_ball!(ball, ball_pos, ball_vel)
+
+        # Calculate the new expected position of the ball.
+        new_position = ball.position + ball.velocity
+
+        wall_collision!(new_position, ball, arena)
+        paddle_collision!(new_position, player_a, player_b, ball, arena)
+
+        # If the ball is not the sweet spot, that means it is out of bounds.
+        # Apply a reset.
+        if !(0 < new_position.x < arena.dims.x)
+            new_position.x = ball_pos.x
+            new_position.y = ball_pos.y
+            reset_ball_velocity!(ball, ball_vel)
         end
 
-        detect_collision(ball, arena) && rebound!(ball)                      # collision from the walls
-        detect_collision(player_a, ball, arena) && rebound!(ball, player_a)  # collision from player A
-        detect_collision(player_b, ball, arena) && rebound!(ball, player_b)  # collision from player B
-        ball.position += ball.velocity
+        # Update the current position
+        ball.position.x = new_position.x
+        ball.position.y = new_position.y
 
         if timestep % frameskip == 0
             !visible(win) && visible(win, true)
@@ -70,6 +85,6 @@ function demo()
             end
             reveal(canvas, true)
         end
-        sleep(0.01)
+        sleep(0.02)
     end
 end
