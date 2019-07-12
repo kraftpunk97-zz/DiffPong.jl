@@ -1,4 +1,4 @@
-﻿# DiffPong.jl [WIP]
+# DiffPong.jl [WIP]
 A differentiable Pong game environment for RL experimentation in Julia.
 
 ## Installation
