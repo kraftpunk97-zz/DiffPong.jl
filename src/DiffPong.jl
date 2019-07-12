@@ -4,7 +4,7 @@ include("data_structures.jl")
 export Arena, Ball, Env, Player, Vector_
 
 include("utils.jl")
-export set_paddle_position!, set_ball_position!, set_ball_velocity,
+export set_paddle_position!, set_ball_position!, set_ball_velocity, render
         draw_rectangle!, get_obs, get_score, update_paddle_position!
 
 include("physics.jl")
