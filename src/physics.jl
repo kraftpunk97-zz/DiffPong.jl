@@ -7,11 +7,11 @@ function wall_collision!(new_position::Vector_, ball::Ball, arena::Arena)
     if new_position.y > (arena.dims.y - ball.radius)
         new_position.y = arena.dims.y - ball.radius
         rebound!(ball)
-        println("Wall collision")
+        #println("Wall collision")
     elseif new_position.y < ball.radius
         new_position.y = ball.radius
         rebound!(ball)
-        println("Wall collision")
+        #println("Wall collision")
     end
 end
 
@@ -29,7 +29,7 @@ function paddle_collision!(new_position::Vector_, player_a::Player, player_b::Pl
         if lower_bound_b < new_position.y < higher_bound_b
             new_position.x = arena.dims.x - ball.radius
             rebound!(ball, player_b)
-            println("Paddle collision")
+            #println("Paddle collision")
         end
 
     elseif new_position.x < ball.radius
@@ -40,7 +40,7 @@ function paddle_collision!(new_position::Vector_, player_a::Player, player_b::Pl
         if lower_bound_a < new_position.y < higher_bound_a
             new_position.x = ball.radius
             rebound!(ball, player_a)
-            println("Paddle collision")
+            #println("Paddle collision")
         end
     end
 end

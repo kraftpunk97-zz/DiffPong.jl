@@ -16,9 +16,6 @@ y     |
       V
 
 =#
-include("data_structures.jl")
-include("utils.jl")
-include("physics.jl")
 
 function reset_ball!(arena::Arena, ball::Ball)
     k = -1 * sign(ball.velocity.x)
@@ -104,14 +101,14 @@ function step!(env::Env, player_action)
     if new_position.x ≤ 0
         player_b.score += 1
         reward = 1
-        println("Score!!!")
+        #println("Score!!!")
         new_position = reset_ball!(arena, ball)
     end
 
     if new_position.x ≥ arena.dims.x
         player_a.score += 1
         reward = -1
-        println("Booo!!!!!")
+        #println("Booo!!!!!")
         new_position = reset_ball!(arena, ball)
     end
 
