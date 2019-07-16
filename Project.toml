@@ -4,7 +4,6 @@ authors = ["Kartikey Gupta <kartikeygupta9097@gmail.com>"]
 version = "0.1.0"
 
 [deps]
-Cairo = "159f3aea-2a34-519c-b102-8c37f9878175"
-Gtk = "4c0ca9eb-093a-5379-98c5-f87ac0bbbf44"
 GymSpaces = "4896a6fa-884d-11e9-35a0-9763e69c01ff"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"

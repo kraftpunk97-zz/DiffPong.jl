@@ -2,10 +2,6 @@ using Images
 
 render(env::Env) = env |> get_obs |> normedview .|> Gray
 
-set_paddle_position!(player::Player, x, y) = (player.position = Vector_(x, y))
-set_ball_position!(ball::Ball, x, y) = (ball.position = Vector_(x, y))
-set_ball_velocity!(ball::Ball, v_x, v_y) = (ball.velocity = Vector_(v_x, v_y))
-
 function draw_rectangle!(screen_array::Array{UInt8, 2}, x, y, w, h, factor)
     X, Y, W, H = (x, y, w, h) .|> floor .|> Int .|>(num) -> *(num, factor)
 
@@ -51,8 +47,8 @@ function get_obs(env::Env)
     return screen_array
 end
 
-function update_paddle_position!(player::Player, arena::Arena, dir)
-    player.position.y += dir * player.velocity
-    player.position.y = max(player.position.y, 0)
-    player.position.y = min(player.position.y, arena.dims.y - player.length)
+function update_paddle_position(player::Player, arena::Arena, dir)
+    dummy = player.position.y + dir * player.velocity
+    dummy = clamp(dummy, 0, arena.dims.y - player.length)
+    Vector_(player.position.x, dummy)
 end

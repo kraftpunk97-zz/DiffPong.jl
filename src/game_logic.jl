@@ -16,20 +16,21 @@ y     |
       V
 
 =#
-
 function reset_ball!(arena::Arena, ball::Ball)
     k = -1 * sign(ball.velocity.x)
-    ball.velocity.x = 2k
+    ball_vx = 2k
+    ball_vy = 0
     while true
-        ball.velocity.y = -1 * k * rand(-2:2)
-        ball.velocity.y != 0 && break
+        ball_vy = -1 * k * rand(-2:2)
+        ball_vy != 0 && break
     end
+    ball.velocity = Vector_(ball_vx, ball_vy)
     return arena.dims/2f0
 end
 
-human_action!(player_b::Player, arena::Arena, dir) = update_paddle_position!(player_b, arena, dir)
+human_action(player_b::Player, arena::Arena, dir) = update_paddle_position(player_b, arena, dir)
 
-function ai_action!(player_a::Player, arena::Arena, ball::Ball)
+function ai_action(player_a::Player, arena::Arena, ball::Ball)
     dir = sign(ball.position.y - player_a.length/2f0 - player_a.position.y)
 
     if sign(ball.position.x - player_a.position.x) == sign(ball.velocity.x) ||
@@ -37,7 +38,7 @@ function ai_action!(player_a::Player, arena::Arena, ball::Ball)
         dir = 0
     end
 
-    update_paddle_position!(player_a, arena, dir)
+    update_paddle_position(player_a, arena, dir)
 end
 
 """The default game configuration"""
@@ -53,11 +54,11 @@ function Env()
 
     arena = Arena(Vector_(arena_width, arena_height), Vector_(margin_width, margin_height))
 
-    # The position of the paddle is calculated from its center.
+    # The position of the paddle is calculated from its top edge.
     # Therefore, acceptable values of the y coordinate of the paddles are
     # from 0 -------> arena_height - paddle_length
     player_a_pos = Vector_(0, (arena.dims.y-paddle_length)/2)
-    player_a = Player(paddle_length, deepcopy(player_a_pos), 2, 0)
+    player_a = Player(paddle_length, deepcopy(player_a_pos), 4, 0)
 
     player_b_pos = Vector_(arena.dims.x, (arena.dims.y-paddle_length)/2)
     player_b = Player(paddle_length, deepcopy(player_b_pos), 2, 0)
@@ -77,45 +78,48 @@ end
 function step!(env::Env, player_action)
     #@assert player_action ∈ action_space
 
-    # 1 = Noop
-    # 2 = Up
-    # 3 = Down
-    dir = player_action == 1 ? 0 : (player_action == 2 ? -1 : 1)
+    # 1 = Noop -1
+    # 2 = Up    0
+    # 3 = Down  1
+
+    player_action -= 2
 
     arena = env.arena
     player_a = env.player_a
     player_b = env.player_b
     ball = env.ball
 
-    reward = 0
 
-    total_score = player_a.score + player_b.score
+    new_player_b_position = human_action(player_b, arena, player_action)  # Find gradients here (Done)
+    new_player_a_position = ai_action(player_a, arena, ball)
 
-    human_action!(player_b, arena, dir)
-    ai_action!(player_a, arena, ball)
-    new_position = env.ball.position + ball.velocity
+    new_ball_position = (env.ball.position + ball.velocity)
 
-    wall_collision!(new_position, ball, arena)
-    paddle_collision!(new_position, player_a, player_b, ball, arena)
 
-    if new_position.x ≤ 0
+    new_ball_position = wall_collision!(new_ball_position, ball, arena)
+
+
+    new_ball_position = paddle_collision!(new_ball_position, new_player_a_position, new_player_b_position,
+                                            player_b.length, ball, arena)  # Find gradients here.
+
+    if new_ball_position.x ≤ 0
         player_b.score += 1
-        reward = 1
-        #println("Score!!!")
-        new_position = reset_ball!(arena, ball)
+        new_position = reset_ball!(arena, ball)  # Drop gradients here...
     end
 
-    if new_position.x ≥ arena.dims.x
+    if new_ball_position.x ≥ arena.dims.x
         player_a.score += 1
-        reward = -1
-        #println("Booo!!!!!")
-        new_position = reset_ball!(arena, ball)
+        new_position = reset_ball!(arena, ball)  # Drop gradients here...
     end
-
-    ball.position.x = new_position.x
-    ball.position.y = new_position.y
 
     done = (player_a.score + player_b.score) ≥ 21
+    reward = -1 * abs(new_ball_position.y - new_player_b_position.y - player_b.length/2f0)
 
-    return get_obs(env), reward, done, Dict()
+    # Update positions...
+    ball.position = new_ball_position
+    player_b.position = new_player_b_position
+    player_a.position = new_player_a_position
+
+    #return get_obs(env), reward, done, Dict()
+    return reward
 end
