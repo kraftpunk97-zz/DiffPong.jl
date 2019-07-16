@@ -17,12 +17,9 @@ A differentiable Pong game environment for RL experimentation in Julia.
 ### Collision physics functions
 * `wall_collision!`
 * `paddle_collision!`
-* `rebound!` - Updates the direction of the velocity of ball when collision occurs.
+* `rebound` - Updates the direction of the velocity of ball when collision occurs.
 
 ### Utility functions
-* `set_paddle_position!`
-* `set_ball_position!`
-* `set_ball_velocity!`
 * `draw_rectangle!` - Accepts an `Array{UInt8, 2}` and draws a rectangle at position `x, y` of width `w` and height `h`.
 * `get_obs` - Converts the current game state into a 2D `Array{UInt8, 2}` dot matrix image.
 *  `get_score`
@@ -31,8 +28,8 @@ A differentiable Pong game environment for RL experimentation in Julia.
 
 ### Game logic functions
 * `reset_ball!` - Resets the ball's position at the end of the round.
-* `human_action!` - Processes human input.
-* `ai_action!`
+* `human_action` - Processes human input.
+* `ai_action`
 * `step!`
 
 ## Demonstration
