@@ -1,6 +1,8 @@
 # DiffPong.jl [WIP]
 A differentiable Pong game environment for RL experimentation in Julia.
 
+[]!(https://media.giphy.com/media/XZsRbWRRhobnk6eOlQ/giphy.gif)
+
 ## Installation
 
 `] add https://github.com/kraftpunk97/DiffPong.jl#game-logic`
@@ -45,3 +47,6 @@ julia> step!(env, rand(1:3)); render(env)
 
 julia> step!(env, rand(1:3)); render(env)
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE0ODY5NTgwMDldfQ==
+-->
