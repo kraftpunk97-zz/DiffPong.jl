@@ -50,9 +50,5 @@ julia> for _i=1:100
 		   state, reward, done, _ = step!(env, rand(1:3));
 		   render(env)ia see(1) endv) |> display;
 		   sleep(0.01)
-	   end
+       end
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk2MzcxMzg5MSwtODM4OTk5ODcxLC0xNj
-QzNTY3MDQ2XX0=
--->
