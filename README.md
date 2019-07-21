@@ -5,7 +5,7 @@ A differentiable Pong game environment for RL experimentation in Julia.
 
 ## Installation
 
-`] add https://github.com/kraftpunk97/DiffPong.jl#game-logic`
+`] add https://github.com/kraftpunk97/DiffPong.jl#master`
 
 ## Exportables
 
