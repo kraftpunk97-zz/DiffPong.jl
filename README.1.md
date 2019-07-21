@@ -36,7 +36,7 @@ A differentiable Pong game environment for RL experimentation in Julia.
 
 ## Demonstration
 
-As of writing this demo, the package only supports the rend
+As of writing this demo, the package only supports the rendering if the script is run within the [Juno IDE](https://junolab.org). Other visualisation options will be added in the future.
 ```julia
 julia> using DiffPong
 
@@ -51,5 +51,5 @@ julia> for _=1:100
 	   end
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA4NTkzOTk3MF19
+eyJoaXN0b3J5IjpbLTIwNDAzNzAyOTddfQ==
 -->
