@@ -36,6 +36,7 @@ A differentiable Pong game environment for RL experimentation in Julia.
 
 ## Demonstration
 
+The demostration with the visuals can only 
 ```julia
 julia> using DiffPong
 
@@ -43,10 +44,14 @@ julia> env = Env()
 
 julia> for step!(env, rand(1:3)); render(env)
 
-julia> step!(env, rand(1:3)); render(env)
+julia>i=1:100
+		   state, reward, done, _ = step!(env, rand(1:3));
+		   render(env)
 
-julia> step!(env, rand(1:3)); render(env)
+julia> step!(env, rand(1:3)); render(env) |> display
+		   sleep(0.01)
+	   end
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2NDM1NjcwNDYsMTAxODg2Njk1MF19
+eyJoaXN0b3J5IjpbMTcyNDI3OTk2NiwtMTY0MzU2NzA0Nl19
 -->
