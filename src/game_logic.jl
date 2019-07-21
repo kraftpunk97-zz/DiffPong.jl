@@ -92,34 +92,41 @@ function step!(env::Env, player_action)
 
     new_player_b_position = human_action(player_b, arena, player_action)  # Find gradients here (Done)
     new_player_a_position = ai_action(player_a, arena, ball)
-
-    new_ball_position = (env.ball.position + ball.velocity)
-
-
+    new_ball_position = ball.position + ball.velocity
     new_ball_position = wall_collision!(new_ball_position, ball, arena)
 
 
     new_ball_position = paddle_collision!(new_ball_position, new_player_a_position, new_player_b_position,
                                             player_b.length, ball, arena)  # Find gradients here.
 
+    reward = 0
+
     if new_ball_position.x ≤ 0
         player_b.score += 1
-        new_position = reset_ball!(arena, ball)  # Drop gradients here...
+        reward += 80
+        new_ball_position = reset_ball!(arena, ball)  # Drop gradients here...
     end
 
     if new_ball_position.x ≥ arena.dims.x
         player_a.score += 1
-        new_position = reset_ball!(arena, ball)  # Drop gradients here...
+        reward -= 80
+        new_ball_position = reset_ball!(arena, ball)  # Drop gradients here...
     end
 
     done = (player_a.score + player_b.score) ≥ 21
-    reward = -1 * abs(new_ball_position.y - new_player_b_position.y - player_b.length/2f0)
+    reward += -1 * abs(new_ball_position.y - new_player_b_position.y - player_b.length/2f0)
 
     # Update positions...
     ball.position = new_ball_position
     player_b.position = new_player_b_position
     player_a.position = new_player_a_position
 
-    #return get_obs(env), reward, done, Dict()
-    return reward
+    return get_obs(env), reward, done, Dict()
+end
+
+function reset!(env::Env)
+    reset_ball!(env.arena, env.ball)
+    env.player_a.score = 0
+    env.player_b.score = 0
+    get_obs(env)
 end

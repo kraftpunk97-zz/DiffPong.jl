@@ -11,7 +11,7 @@ include("physics.jl")
 export wall_collision!, paddle_collision!, rebound
 
 include("game_logic.jl")
-export reset_ball!, human_action, ai_action, step!
+export reset_ball!, human_action, ai_action, step!, reset!
 
 include("gradients.jl")
 end # module

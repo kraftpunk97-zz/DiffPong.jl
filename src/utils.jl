@@ -5,8 +5,10 @@ render(env::Env) = env |> get_obs |> normedview .|> Gray
 function draw_rectangle!(screen_array::Array{UInt8, 2}, x, y, w, h, factor)
     X, Y, W, H = (x, y, w, h) .|> floor .|> Int .|>(num) -> *(num, factor)
 
-    for i=X+1:X+W
-        for j=Y+1:Y+H
+    max_h, max_w = size(screen_array)
+    
+    for i=max(X, 1):min(X+W, max_w)
+        for j=max(Y, 1):min(Y+H, max_h)
             screen_array[j, i] = UInt8(255)
         end
     end
