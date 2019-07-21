@@ -41,8 +41,12 @@ julia> using DiffPong
 
 julia> env = Env()
 
-julia> for 
+julia> for step!(env, rand(1:3)); render(env)
+
+julia> step!(env, rand(1:3)); render(env)
+
+julia> step!(env, rand(1:3)); render(env)
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAxODg2Njk1MF19
+eyJoaXN0b3J5IjpbLTE2NDM1NjcwNDYsMTAxODg2Njk1MF19
 -->
