@@ -46,9 +46,9 @@ julia> env = Env()
 
 julia> reset!(env)
 
-julia> for _i=1:100
-		   state, reward, done, _ = step!(env, rand(1:3));
-		   render(env)ia see(1) endv) |> display;
-		   sleep(0.01)
+julia> for _=1:100
+	   state, reward, done, _ = step!(env, rand(1:3));
+	   render(env) |> display;
+	   sleep(0.01)
        end
 ```
