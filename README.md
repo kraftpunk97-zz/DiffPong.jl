@@ -33,10 +33,12 @@ A differentiable Pong game environment for RL experimentation in Julia.
 * `human_action` - Processes human input.
 * `ai_action`
 * `step!`
+* `reset!`
 
 ## Demonstration
 
-The demostration with the visuals can only 
+The demostration with the visuals can only be run in the Juno IDE at the moment. Other visualisation options will be added in the future.
+
 ```julia
 julia> using DiffPong
 
@@ -53,5 +55,6 @@ julia> step!(env, rand(1:3)); render(env) |> display
 	   end
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcyNDI3OTk2NiwtMTY0MzU2NzA0Nl19
+eyJoaXN0b3J5IjpbLTE3MTc1OTkzNzcsLTE2NDM1NjcwNDZdfQ
+==
 -->
