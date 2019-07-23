@@ -59,22 +59,27 @@ import Base: sign, floor
     Env(arena, player_a, player_b, ball), ∆ -> (∆.arena, ∆.player_a, ∆.player_b, ∆.ball)
 
 @adjoint literal_getproperty(e::Env, ::Val{:arena}) =
-    getproperty(e, :arena), ∆ -> (Env(∆, zero(e.player_a), zero(e.player_b), zero(e.ball)), )
+    getproperty(e, :arena), ∆ -> (Env(∆, zero(e.player_a), zero(e.player_b), zero(e.ball), zero(e.total_reward), zero(e.done)), )
 
 @adjoint literal_getproperty(e::Env, ::Val{:player_a}) =
-    getproperty(e, :player_a), ∆ -> (Env(zero(e.arena), ∆, zero(e.player_b), zero(e.ball)), )
+    getproperty(e, :player_a), ∆ -> (Env(zero(e.arena), ∆, zero(e.player_b), zero(e.ball), zero(e.total_reward), zero(e.done)), )
 
 @adjoint literal_getproperty(e::Env, ::Val{:player_b}) =
-    getproperty(e, :player_b), ∆ -> (Env(zero(e.arena), zero(e.player_a), ∆, zero(e.ball)), )
+    getproperty(e, :player_b), ∆ -> (Env(zero(e.arena), zero(e.player_a), ∆, zero(e.ball), zero(e.total_reward), zero(e.done)), )
 
 @adjoint literal_getproperty(e::Env, ::Val{:ball}) =
-    getproperty(e, :ball), ∆ -> (Env(zero(e.arena), zero(e.player_a), zero(e.player_b), ∆), )
+    getproperty(e, :ball), ∆ -> (Env(zero(e.arena), zero(e.player_a), zero(e.player_b), ∆, zero(e.total_reward), zero(e.done)), )
 
+@adjoint literal_getproperty(e::Env, ::Val{:total_reward}) =
+    getproperty(e, :total_reward), ∆ -> (Env(zero(e.arena), zero(e.player_a), zero(e.player_b), ∆, zero(e.done)), )
+
+@adjoint literal_getproperty(e::Env, ::Val{:done}) =
+    getproperty(e, :done), ∆ -> (Env(zero(e.arena), zero(e.player_a), zero(e.player_b), zero(e.total_reward), ∆), )
 
 x::Player + y::Player = Player(x.length, x.position + y.position, x.velocity + y.velocity, 0)
 x::Ball + y::Ball = Ball(x.position + y.position, x.velocity + y.velocity, x.radius)
 x::Arena + y::Arena = Arena(x.dims + y.dims, x.margin + y.margin)
-x::Env + y::Env = Env(x.arena + y.arena, x.player_a + y.player_a, x.player_b + y.player_b, x.ball + y.ball)
+x::Env + y::Env = Env(x.arena + y.arena, x.player_a + y.player_a, x.player_b + y.player_b, x.ball + y.ball, x.total_reward + y.total_reward, false)
 
 #=
 function Zygote.accum(x::Player, y::Player)

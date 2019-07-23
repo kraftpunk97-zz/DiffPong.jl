@@ -49,11 +49,13 @@ end
 
 Base.zero(a::Arena) = Arena(zero(a.dims), zero(a.margin))
 
-struct Env
+mutable struct Env
     arena::Arena
     player_a::Player
     player_b::Player
     ball::Ball
+    total_reward::Float32
+    done::Bool
 end
 
-Base.zero(e::Env) = Env(zero(e.arena), zero(e.player_a), zero(e.player_b), zero(e.ball))
+Base.zero(e::Env) = Env(zero(e.arena), zero(e.player_a), zero(e.player_b), zero(e.ball), zero(e.total_reward), true)

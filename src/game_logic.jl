@@ -71,12 +71,11 @@ function Env()
     ball_vel = Vector_(3,  -3)
     ball = Ball(deepcopy(ball_pos), deepcopy(ball_vel), ball_radius)
 
-
-    return Env(arena, player_a, player_b, ball)
+    return Env(arena, player_a, player_b, ball, 0f0, true)
 end
 
 function step!(env::Env, player_action)
-    #@assert player_action ∈ action_space
+    @assert player_action ∈ (1, 2, 3)
 
     # 1 = Noop -1
     # 2 = Up    0
@@ -121,12 +120,17 @@ function step!(env::Env, player_action)
     player_b.position = new_player_b_position
     player_a.position = new_player_a_position
 
-    return get_obs(env), reward, done, Dict()
+    env.total_reward += reward
+    env.done = done
+
+    return get_obs(env), reward, env.done, Dict()
 end
 
 function reset!(env::Env)
     reset_ball!(env.arena, env.ball)
     env.player_a.score = 0
     env.player_b.score = 0
+    env.total_reward = 0f0
+    env.done = false
     get_obs(env)
 end
