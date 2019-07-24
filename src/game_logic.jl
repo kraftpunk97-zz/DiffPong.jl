@@ -129,7 +129,7 @@ function step!(env::Env, player_action)
 end
 
 function reset!(env::Env)
-    reset_ball!(env.arena, env.ball)
+    env.ball.position = reset_ball!(env.arena, env.ball)
     env.player_a.score = 0
     env.player_b.score = 0
     env.total_reward = 0f0
