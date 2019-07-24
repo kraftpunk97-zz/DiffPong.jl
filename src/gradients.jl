@@ -3,9 +3,9 @@
 using Zygote
 using Zygote: @adjoint, @nograd, literal_getproperty, @showgrad, hook
 import Zygote: accum
-import Base: sign, floor
+import Base: sign, floor, ∉
 
-@nograd get_obs, reset_ball!#wall_collision!, #, paddle_collision!
+@nograd get_obs, error, reset_ball!, ∉#wall_collision!, #, paddle_collision!
 
 @adjoint Vector_(x, y) = Vector_(x, y), ∆ -> (∆.x, ∆.y)
 
@@ -80,6 +80,7 @@ x::Player + y::Player = Player(x.length, x.position + y.position, x.velocity + y
 x::Ball + y::Ball = Ball(x.position + y.position, x.velocity + y.velocity, x.radius)
 x::Arena + y::Arena = Arena(x.dims + y.dims, x.margin + y.margin)
 x::Env + y::Env = Env(x.arena + y.arena, x.player_a + y.player_a, x.player_b + y.player_b, x.ball + y.ball, x.total_reward + y.total_reward, false)
+x::Base.RefValue{Any} + y::Env = nothing
 
 #=
 function Zygote.accum(x::Player, y::Player)

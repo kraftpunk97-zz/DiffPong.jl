@@ -75,7 +75,9 @@ function Env()
 end
 
 function step!(env::Env, player_action)
-    @assert player_action ∈ (1, 2, 3)
+    #=if player_action ∉ (1, 2, 3)
+        error("Incorrect action")
+    end=#
 
     # 1 = Noop -1
     # 2 = Up    0
