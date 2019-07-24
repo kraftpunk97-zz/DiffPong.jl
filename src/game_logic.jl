@@ -114,7 +114,7 @@ function step!(env::Env, player_action)
         new_ball_position = reset_ball!(arena, ball)  # Drop gradients here...
     end
 
-    done = (player_a.score + player_b.score) ≥ 21
+    done = player.a.score ≥ 5 || player.b.score ≥ 5
     reward += -1 * abs(new_ball_position.y - new_player_b_position.y - player_b.length/2f0)
 
     # Update positions...
